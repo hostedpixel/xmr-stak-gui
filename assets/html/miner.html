@@ -5,7 +5,6 @@
   <meta charset="UTF-8">
   <title>xmr-stak-gui</title>
   <link rel="stylesheet" href="../css/bootstrap.min.css">
-  <link rel="stylesheet" href="../css/custom.min.css">
 </head>
 
 <body>
@@ -19,13 +18,13 @@
 
     <div class="navbar-collapse collapse" id="navbarColor01">
       <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="./index.html">Home</a>
+        </li>
         <li class="nav-item active">
-          <a class="nav-link" href="./index.html">Home
+          <a class="nav-link" href="./miner.html">Miner
             <span class="sr-only">(current)</span>
           </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./miner.html">Miner</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="./wallet.html">Wallet</a>
@@ -37,20 +36,20 @@
     </div>
   </nav>
   <br>
-
-  <div id="footer">
-    <div class="container-fluid">
-      <!-- All of the Node.js APIs are available in this renderer process. -->
-      We are using Node.js
-      <script>
-        document.write(process.versions.node)
-      </script>, Chromium
-      <script>
-        document.write(process.versions.chrome)
-      </script>, and Electron
-      <script>
-        document.write(process.versions.electron)
-      </script>.
+  <div class="container-fluid">
+    <h1>Miner</h1>
+  </div>
+  <div class="container-fluid">
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+      <label class="btn btn-primary">
+        <input type="radio" name="options" id="option1" autocomplete="off" > On
+      </label>
+      <label class="btn btn-primary">
+        <input type="radio" name="options" id="option2" autocomplete="off"> Off
+      </label>
+      <label class="btn btn-primary active">
+        <input type="radio" name="options" id="option3" autocomplete="off"> Auto (Settings -> Time)
+      </label>
     </div>
   </div>
 

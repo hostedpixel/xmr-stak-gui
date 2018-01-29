@@ -5,7 +5,6 @@
   <meta charset="UTF-8">
   <title>xmr-stak-gui</title>
   <link rel="stylesheet" href="../css/bootstrap.min.css">
-  <link rel="stylesheet" href="../css/custom.min.css">
 </head>
 
 <body>
@@ -19,16 +18,16 @@
 
     <div class="navbar-collapse collapse" id="navbarColor01">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
+        <li class="nav-item">
           <a class="nav-link" href="./index.html">Home
-            <span class="sr-only">(current)</span>
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="./miner.html">Miner</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="./wallet.html">Wallet</a>
+          <a class="nav-link active" href="./wallet.html">Wallet
+            <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="./settings.html">Settings</a>
@@ -38,20 +37,19 @@
   </nav>
   <br>
 
-  <div id="footer">
-    <div class="container-fluid">
-      <!-- All of the Node.js APIs are available in this renderer process. -->
-      We are using Node.js
-      <script>
-        document.write(process.versions.node)
-      </script>, Chromium
-      <script>
-        document.write(process.versions.chrome)
-      </script>, and Electron
-      <script>
-        document.write(process.versions.electron)
-      </script>.
-    </div>
+  <div class="container-fluid">
+    <h1>xmr-stak-gui!</h1>
+    <!-- All of the Node.js APIs are available in this renderer process. -->
+    We are using Node.js
+    <script>
+      document.write(process.versions.node)
+    </script>, Chromium
+    <script>
+      document.write(process.versions.chrome)
+    </script>, and Electron
+    <script>
+      document.write(process.versions.electron)
+    </script>.
   </div>
 
   <script>
