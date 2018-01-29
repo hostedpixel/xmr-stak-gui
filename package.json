@@ -1,0 +1,16 @@
+{
+  "name": "xmr-stak-gui",
+  "version": "1.0.0",
+  "description": "An electron based GUI for the xmr-stak miner",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": "https://github.com/jacobgc/xmr-stak-gui.git",
+  "author": "Jacob <jacob.clarke2@gmail.com>",
+  "license": "GNU General Public License v3.0",
+  "private": false,
+  "devDependencies": {
+    "electron": "~1.7.11"
+  }
+}
