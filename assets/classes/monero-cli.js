@@ -62,7 +62,6 @@ class moneroCli {
         await child.stdin.write(`1\n`); // Select English as the language
         await child.stdin.write(`exit\n`); // Exit the CLI
         child.stdout.on('data', function (data) {
-            setTimeout(() => {
                 debug(`stdout: ${data}`);
                 if (data.includes(`Generated new wallet`)) { // Find the text regarding the wallet address and view key and output them to the user
                     debug('Wallet Created');
@@ -81,9 +80,6 @@ class moneroCli {
                 } else if (data.includes(`failed to generate new wallet: file already exists`)) {
                     $(`#walletAddress`).text('Error, a wallet with that address already exists. Please choose a different name or open the wallet');
                 }
-
-            }, 5000);
-
         });
 
         child.stderr.on('data', function (data) {
