@@ -2,64 +2,107 @@
 <html>
 
 <head>
-  <meta charset="UTF-8">
-  <title>xmr-stak-gui</title>
-  <link rel="stylesheet" href="../css/bootstrap.min.css">
-  <link rel="stylesheet" href="../css/custom.min.css">
+    <meta charset="UTF-8">
+    <title>xmr-stak-gui</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/custom.min.css">
 </head>
 
 <body>
 
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <a class="navbar-brand" href="#">xmr-stak-gui</a>
-    <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01"
-      aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="#">xmr-stak-gui</a>
+        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-    <div class="navbar-collapse collapse" id="navbarColor01">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="./index.html">Home
-            <span class="sr-only">(current)</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./miner.html">Miner</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./wallet.html">Wallet</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./settings.html">Settings</a>
-        </li>
-      </ul>
+        <div class="navbar-collapse collapse" id="navbarColor01">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="./index.html">Home
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./miner.html">Miner</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./wallet.html">Wallet</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./settings.html">Settings</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <br>
+
+    <div id="footer">
+        <div class="container-fluid">
+            <!-- All of the Node.js APIs are available in this renderer process. -->
+            We are using Node.js
+            <script>
+                document.write(process.versions.node)
+            </script>, Chromium:
+            <script>
+                document.write(process.versions.chrome)
+            </script>, Electron:
+            <script>
+                document.write(process.versions.electron)
+            </script>, <div style="display:inline-block;" id="XMRVersion"></div>
+        </div>
     </div>
-  </nav>
-  <br>
 
-  <div id="footer">
-    <div class="container-fluid">
-      <!-- All of the Node.js APIs are available in this renderer process. -->
-      We are using Node.js
-      <script>
-        document.write(process.versions.node)
-      </script>, Chromium
-      <script>
-        document.write(process.versions.chrome)
-      </script>, and Electron
-      <script>
-        document.write(process.versions.electron)
-      </script>.
-    </div>
-  </div>
+    <script>
+        // jQuery is weird within electron so has to be loaded like this.
+        window.$ = window.jQuery = window.jquery = require("../js/jquery.min");
+    </script>
+    <script src="../js/popper.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
 
-  <script>
-    // jQuery is weird within electron so has to be loaded like this.
-    window.$ = window.jQuery = window.jquery = require("../js/jquery.min");
-  </script>
-  <script src="../js/popper.min.js"></script>
-  <script src="../js/bootstrap.min.js"></script>
+    <script async>
+        var spawn = require('child_process').spawn;
+        var os = require('os');
+        var path = require('path');
+        var debug = require('debug')('xmr-stak-gui-index.html')
+
+        process.env.XMRSTAK_NOWAIT = true; // Removes clutter from the output
+        debug('Checking Version of xmr-stak');
+        if (os.type() === "Linux") {
+            debug('OS Type: Linux');
+            debug('Spawning child process ../xmr-stak/xmr-stak');
+            var child = spawn(path.join(__dirname, '../xmr-stak/xmr-stak'), ['--version']);
+
+        } else if (os.type() === "Windows_NT") {
+            debug('OS Type: Windows_NT');
+            debug('Spawning child process ../xmr-stak/xmr-stak.exe');
+            var child = spawn(path.join(__dirname, '../xmr-stak/xmr-stak.exe'), ['--version']);
+        } else {
+            debug('Failed to get version for xmr-stak. Your OS is not supported');
+        }
+
+        child.stdout.on('data', function (data) {
+            setTimeout(function () { // Wait a second for the full chunk of data
+                debug('stdout: ' + data);
+                var version = data.toString('utf8');
+                version = version.replace('Version: ', '');
+                debug('Version:' + version);
+                $('#XMRVersion').text(`and xmr-stak: ${version}`);
+            }, 1000);
+
+        });
+        child.stderr.on('data', function (data) {
+            debug('stderr: ' + data);
+        });
+        child.on('close', function (code) {
+            debug('closing code: ' + code);
+        });
+        child.on('error', function(err) {
+            $('#XMRVersion').text(`and xmr-stak: Not Found`);
+        });
+    </script>
+
 </body>
 
 </html>

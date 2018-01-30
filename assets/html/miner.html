@@ -40,17 +40,47 @@
     <h1>Miner</h1>
   </div>
   <div class="container-fluid">
-    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-      <label class="btn btn-primary">
-        <input type="radio" name="options" id="option1" autocomplete="off" > On
-      </label>
-      <label class="btn btn-primary">
-        <input type="radio" name="options" id="option2" autocomplete="off"> Off
-      </label>
-      <label class="btn btn-primary active">
-        <input type="radio" name="options" id="option3" autocomplete="off"> Auto (Settings -> Time)
-      </label>
-    </div>
+    <form lpformnum="1" _lpchecked="1">
+      <fieldset>
+        <div class="form-group">
+          <div class="custom-control custom-radio">
+            <input type="radio" id="radioMonero" name="customRadio" class="custom-control-input" checked="">
+            <label class="custom-control-label" for="radioMonero">Monero</label>
+          </div>
+          <div class="custom-control custom-radio">
+            <input type="radio" id="radioAeon" name="customRadio" class="custom-control-input">
+            <label class="custom-control-label" for="radioAeon">Aeon</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="poolAddress">Pool Address</label>
+          <input type="text" required class="form-control" id="poolAddress" placeholder="pool.supportxmr.com:3333" style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABHklEQVQ4EaVTO26DQBD1ohQWaS2lg9JybZ+AK7hNwx2oIoVf4UPQ0Lj1FdKktevIpel8AKNUkDcWMxpgSaIEaTVv3sx7uztiTdu2s/98DywOw3Dued4Who/M2aIx5lZV1aEsy0+qiwHELyi+Ytl0PQ69SxAxkWIA4RMRTdNsKE59juMcuZd6xIAFeZ6fGCdJ8kY4y7KAuTRNGd7jyEBXsdOPE3a0QGPsniOnnYMO67LgSQN9T41F2QGrQRRFCwyzoIF2qyBuKKbcOgPXdVeY9rMWgNsjf9ccYesJhk3f5dYT1HX9gR0LLQR30TnjkUEcx2uIuS4RnI+aj6sJR0AM8AaumPaM/rRehyWhXqbFAA9kh3/8/NvHxAYGAsZ/il8IalkCLBfNVAAAAABJRU5ErkJggg==&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;">
+        </div>
+        <div class="form-group">
+          <label for="poolUsername">Username (Commonly your wallet address)</label>
+          <input type="text" required class="form-control" id="poolUsername" placeholder="45fpoPTXayZ2nQtKDf7NePdmnwV3mTowN8QJZKDnUWjnV1TW3iLxu2VPHn6m7C4bYFfQkhGDKHXD5EzDNa9vH1VuEaaP2rU"
+            style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABHklEQVQ4EaVTO26DQBD1ohQWaS2lg9JybZ+AK7hNwx2oIoVf4UPQ0Lj1FdKktevIpel8AKNUkDcWMxpgSaIEaTVv3sx7uztiTdu2s/98DywOw3Dued4Who/M2aIx5lZV1aEsy0+qiwHELyi+Ytl0PQ69SxAxkWIA4RMRTdNsKE59juMcuZd6xIAFeZ6fGCdJ8kY4y7KAuTRNGd7jyEBXsdOPE3a0QGPsniOnnYMO67LgSQN9T41F2QGrQRRFCwyzoIF2qyBuKKbcOgPXdVeY9rMWgNsjf9ccYesJhk3f5dYT1HX9gR0LLQR30TnjkUEcx2uIuS4RnI+aj6sJR0AM8AaumPaM/rRehyWhXqbFAA9kh3/8/NvHxAYGAsZ/il8IalkCLBfNVAAAAABJRU5ErkJggg==&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;">
+        </div>
+        <div class="form-group">
+          <label for="poolUsername">Password (Commonly x or blank)</label>
+          <input type="text" class="form-control" id="poolUsername" value="x" style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABHklEQVQ4EaVTO26DQBD1ohQWaS2lg9JybZ+AK7hNwx2oIoVf4UPQ0Lj1FdKktevIpel8AKNUkDcWMxpgSaIEaTVv3sx7uztiTdu2s/98DywOw3Dued4Who/M2aIx5lZV1aEsy0+qiwHELyi+Ytl0PQ69SxAxkWIA4RMRTdNsKE59juMcuZd6xIAFeZ6fGCdJ8kY4y7KAuTRNGd7jyEBXsdOPE3a0QGPsniOnnYMO67LgSQN9T41F2QGrQRRFCwyzoIF2qyBuKKbcOgPXdVeY9rMWgNsjf9ccYesJhk3f5dYT1HX9gR0LLQR30TnjkUEcx2uIuS4RnI+aj6sJR0AM8AaumPaM/rRehyWhXqbFAA9kh3/8/NvHxAYGAsZ/il8IalkCLBfNVAAAAABJRU5ErkJggg==&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;">
+        </div>
+      </fieldset>
+      <div class="form-group">
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="TLS">
+          <label class="custom-control-label" for="TLS">Does the pool support TLS encryption?</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="NiceHash">
+          <label class="custom-control-label" for="NiceHash">Should the pool run in nicehash mode?</label>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Start Miner</button>
+      </fieldset>
+    </form>
   </div>
 
   <script>
@@ -59,6 +89,29 @@
   </script>
   <script src="../js/popper.min.js"></script>
   <script src="../js/bootstrap.min.js"></script>
+
+
+  <script>
+    function startMiner() {
+      var os = require('os');
+      var spawn = require('child_process').spawn;
+
+      if (os.type() === "Linux") {
+        console.log('OS Type: Linux.');
+        console.log('Spawning child process ../xmr-stak/xmr-stak');
+        var child = spawn('../xmr-stak/xmr-stak', []);
+
+      } else if (os.tpye() === "Windows_NT") {
+        console.log('OS Type: Windows_NT.')
+        console.log('Spawning child process ../xmr-stak/xmr-stak.exe')
+        var child = spawn('../xmr-stak/xmr-stak.exe', []);
+      } else {
+        console.log('Error, OS not supported');
+      }
+    }
+  </script>
+
+
 </body>
 
 </html>

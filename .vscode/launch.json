@@ -10,7 +10,10 @@
             "name": "Electron Main",
             "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron",
             "program": "${workspaceFolder}/main.js",
-            "protocol": "inspector"
+            "protocol": "inspector",
+            "env": {
+                "DEBUG": "xmr-stak-*"
+            }
         }        
     ]
 }
