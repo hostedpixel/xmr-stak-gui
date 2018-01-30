@@ -30,7 +30,7 @@ class xmrStak {
 
             child.stdout.on('data', function (data) {
                 setTimeout(function () { // Wait a second for the full chunk of data
-                    debug('stdout: ' + data);
+                    debug(`stdout: ${data}`);
                     var version = data.toString('utf8');
                     version = version.replace('Version: xmr-stak', '');
                     debug('Version:' + version);
@@ -40,10 +40,10 @@ class xmrStak {
             });
 
             child.stderr.on('data', function (data) {
-                debug('stderr: ' + data);
+                debug(`stderr: ${data}`);
             });
             child.on('close', function (code) {
-                debug('closing code: ' + code);
+                debug(`Closing code: ${code}`);
             });
             child.on('error', function (err) { // If xmr-stak cant be found
                 $('#XMRVersion').text(`and xmr-stak: Not Found`);
