@@ -92,23 +92,9 @@
 
 
   <script>
-    function startMiner() {
-      var os = require('os');
-      var spawn = require('child_process').spawn;
-
-      if (os.type() === "Linux") {
-        console.log('OS Type: Linux.');
-        console.log('Spawning child process ../xmr-stak/xmr-stak');
-        var child = spawn('../xmr-stak/xmr-stak', []);
-
-      } else if (os.tpye() === "Windows_NT") {
-        console.log('OS Type: Windows_NT.')
-        console.log('Spawning child process ../xmr-stak/xmr-stak.exe')
-        var child = spawn('../xmr-stak/xmr-stak.exe', []);
-      } else {
-        console.log('Error, OS not supported');
-      }
-    }
+    var xmrStakClass = require('../classes/xmr-stak');
+    var xmrStak = new xmrStakClass();
+    xmrStak.getVersion();
   </script>
 
 

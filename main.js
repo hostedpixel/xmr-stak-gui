@@ -12,6 +12,7 @@ const url = require('url')
 let mainWindow
 
 function createWindow() {
+  process.env.XMRSTAK_NOWAIT = true; // Remove the "Press any key to continue" on Windows.
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 1450,

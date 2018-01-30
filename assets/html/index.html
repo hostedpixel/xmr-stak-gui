@@ -50,7 +50,7 @@
             </script>, Electron:
             <script>
                 document.write(process.versions.electron)
-            </script>, <div style="display:inline-block;" id="XMRVersion"></div>
+            </script>, <div style="display:inline-block;" id="XMRVersion">and xmr-stak: LOADING </div>
         </div>
     </div>
 
@@ -62,45 +62,9 @@
     <script src="../js/bootstrap.min.js"></script>
 
     <script async>
-        var spawn = require('child_process').spawn;
-        var os = require('os');
-        var path = require('path');
-        var debug = require('debug')('xmr-stak-gui-index.html')
-
-        process.env.XMRSTAK_NOWAIT = true; // Removes clutter from the output
-        debug('Checking Version of xmr-stak');
-        if (os.type() === "Linux") {
-            debug('OS Type: Linux');
-            debug('Spawning child process ../xmr-stak/xmr-stak');
-            var child = spawn(path.join(__dirname, '../xmr-stak/xmr-stak'), ['--version']);
-
-        } else if (os.type() === "Windows_NT") {
-            debug('OS Type: Windows_NT');
-            debug('Spawning child process ../xmr-stak/xmr-stak.exe');
-            var child = spawn(path.join(__dirname, '../xmr-stak/xmr-stak.exe'), ['--version']);
-        } else {
-            debug('Failed to get version for xmr-stak. Your OS is not supported');
-        }
-
-        child.stdout.on('data', function (data) {
-            setTimeout(function () { // Wait a second for the full chunk of data
-                debug('stdout: ' + data);
-                var version = data.toString('utf8');
-                version = version.replace('Version: ', '');
-                debug('Version:' + version);
-                $('#XMRVersion').text(`and xmr-stak: ${version}`);
-            }, 1000);
-
-        });
-        child.stderr.on('data', function (data) {
-            debug('stderr: ' + data);
-        });
-        child.on('close', function (code) {
-            debug('closing code: ' + code);
-        });
-        child.on('error', function(err) {
-            $('#XMRVersion').text(`and xmr-stak: Not Found`);
-        });
+        var xmrStakClass = require('../classes/xmr-stak');
+        var xmrStak = new xmrStakClass();
+        xmrStak.getVersion();
     </script>
 
 </body>
