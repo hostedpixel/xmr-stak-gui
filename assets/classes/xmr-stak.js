@@ -1,7 +1,7 @@
 var spawn = require('child_process').spawn;
 var os = require('os');
 var path = require('path');
-var debug = require('debug')('xmr-stak-gui-class-xmrStak')
+var debug = require('debug')('xmr-stak-gui-class-xmrStak');
 
 class xmrStak {
     constructor() {}
@@ -11,13 +11,13 @@ class xmrStak {
             debug('OS Type: Linux');
             debug(`Spawning child process xmr-stak with the paramiters: ${args}`);
             var child = spawn(path.join(__dirname, '../xmr-stak/xmr-stak'), args);
-            return child
+            return child;
 
         } else if (os.type() === "Windows_NT") {
             debug('OS Type: Windows_NT');
             debug(`Spawning child process xmr-stak with the paramiters: ${args}`);
             var child = spawn(path.join(__dirname, '../xmr-stak/xmr-stak.exe'), args);
-            return child
+            return child;
         } else {
             debug('Failed to launch xmr-stak. Your OS is not supported');
             return false;
@@ -34,7 +34,7 @@ class xmrStak {
                     var version = data.toString('utf8');
                     version = version.replace('Version: xmr-stak', '');
                     debug('Version:' + version);
-                    $('#XMRVersion').text(`and xmr-stak: ${version}`);
+                    $('#XMRVersion').text(`and xmr-stak: ${version},`);
                     return version;
                 }, 1000);
             });
@@ -46,9 +46,15 @@ class xmrStak {
                 debug(`Closing code: ${code}`);
             });
             child.on('error', function (err) { // If xmr-stak cant be found
-                $('#XMRVersion').text(`and xmr-stak: Not Found`);
+                $('#XMRVersion').text(` xmr-stak: Not Found,`);
             });
         }
+    }
+
+    async startMining(args){
+        process.env.XMRSTAK_NOWAIT = true; // Remove the "Press any key to continue" on Windows.
+
+        
 
     }
 

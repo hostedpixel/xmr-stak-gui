@@ -27,7 +27,8 @@
         </li>
         <li class="nav-item">
           <a class="nav-link active" href="./wallet.html">Wallet
-            <span class="sr-only">(current)</span></a>
+            <span class="sr-only">(current)</span>
+          </a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="./settings.html">Settings</a>
@@ -36,21 +37,41 @@
     </div>
   </nav>
   <br>
-
   <div class="container-fluid">
-    <h1>xmr-stak-gui!</h1>
-    <!-- All of the Node.js APIs are available in this renderer process. -->
-    We are using Node.js
-    <script>
-      document.write(process.versions.node)
-    </script>, Chromium
-    <script>
-      document.write(process.versions.chrome)
-    </script>, and Electron
-    <script>
-      document.write(process.versions.electron)
-    </script>.
+      <h1>Wallet!</h1>
   </div>
+
+  <div class="container">
+      <div class="row">
+        <div class="col-sm">
+            <div class="container-fluid">
+                <form id="createWalletForm">
+                    <div class="form-group">
+                        <label for="walletName">Wallet Name</label>
+                        <input type="text" required name="walletName" id="walletName" class="form-control" placeholder="default" aria-describedby="helpId">
+                        <br>
+                        <label for="walletPassword">Wallet Password</label>
+                        <input type="password" required name="walletPassword" id="walletPassword" class="form-control" placeholder="xxxxxxxxxxxxxxxxxxxx" aria-describedby="helpId">                    
+                        <br>
+                        <button type="submit" class="btn btn-primary">Create Wallet</button>
+                      </div>
+                </form>
+                    <label for="walletAddress">Wallet Address</label>
+                    <textarea style="resize: none;" disabled class="form-control" id="walletAddress" rows="1"></textarea>
+                    <label for="viewKey">Wallet View Key</label>
+                    <textarea style="resize: none;" disabled class="form-control" id="viewKey" rows="1"></textarea>
+                    <label for="seed">Wallet Seed</label>
+                    <textarea style="resize: none;" disabled class="form-control" id="seed" rows="5"></textarea>
+
+                  <p></p>
+              </div>
+        </div>
+        <div class="col-sm">
+          Two of two
+        </div>
+      </div>
+    </div>
+
 
   <script>
     // jQuery is weird within electron so has to be loaded like this.
@@ -58,6 +79,17 @@
   </script>
   <script src="../js/popper.min.js"></script>
   <script src="../js/bootstrap.min.js"></script>
+
+
+  <script>
+    $('#createWalletForm').submit(function (e) {
+      e.preventDefault(); // to stop the form from submitting
+      const moneroCliClass = require('../classes/monero-cli');
+      var moneroCli = new moneroCliClass();
+      moneroCli.generateAddress($('#walletName').val(), $('#walletPassword').val());
+    });
+  </script>
+
 </body>
 
 </html>

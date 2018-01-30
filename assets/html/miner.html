@@ -39,8 +39,8 @@
   <div class="container-fluid">
     <h1>Miner</h1>
   </div>
-  <div class="container-fluid">
-    <form lpformnum="1" _lpchecked="1">
+  <div class="container">
+    <form id="miningSettings" lpformnum="1" _lpchecked="1">
       <fieldset>
         <div class="form-group">
           <div class="custom-control custom-radio">
@@ -92,9 +92,11 @@
 
 
   <script>
-    var xmrStakClass = require('../classes/xmr-stak');
-    var xmrStak = new xmrStakClass();
-    xmrStak.getVersion();
+    $('#miningSettings').submit(function (e) {
+      e.preventDefault(); // to stop the form from submitting
+      /* Validations go here */
+      console.log(e);
+    });
   </script>
 
 
