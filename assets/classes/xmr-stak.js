@@ -51,11 +51,48 @@ class xmrStak {
         }
     }
 
-    async startMining(args){
+    async startMining(args) {
         process.env.XMRSTAK_NOWAIT = true; // Remove the "Press any key to continue" on Windows.
 
-        
 
+
+    }
+
+    async download() {
+        var https = require('follow-redirects').https
+        var fs = require('fs')
+
+        const githubReleases = {
+            hostname: 'api.github.com',
+            path: '/repos/fireice-uk/xmr-stak/releases',
+            headers: {
+                'User-Agent': 'xmr-stak-gui'
+            }
+        };
+
+        https.get(githubReleases, function (res) {
+            var body = '';
+
+            res.on('data', function (chunk) {
+                body += chunk;
+            });
+
+            res.on('end', function () {
+                debug(body);
+                var githubResponse = JSON.parse(body);
+                debug(githubResponse[0].assets[0].browser_download_url)
+                var file = fs.createWriteStream("./assets/xmr-stak/xmr-stak.zip");
+                https.get(githubResponse[0].assets[0].browser_download_url, function (res) {
+                    console.log(res)
+                    res.pipe(file);
+                    res.on('end', function () {
+                        debug('Downloaded xmr-stak-win64.zip');
+                    });
+                });
+            });
+        }).on('error', function (e) {
+            debug("Got an error: ", e);
+        });
     }
 
 }

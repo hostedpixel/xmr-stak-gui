@@ -62,24 +62,24 @@ class moneroCli {
         await child.stdin.write(`1\n`); // Select English as the language
         await child.stdin.write(`exit\n`); // Exit the CLI
         child.stdout.on('data', function (data) {
-                debug(`stdout: ${data}`);
-                if (data.includes(`Generated new wallet`)) { // Find the text regarding the wallet address and view key and output them to the user
-                    debug('Wallet Created');
-                    var walletResult = walletAddressRegex.exec(data);
-                    debug(`Wallet address is: ${walletResult}`)
-                    $(`#walletAddress`).text(walletResult);
+            debug(`stdout: ${data}`);
+            if (data.includes(`Generated new wallet`)) { // Find the text regarding the wallet address and view key and output them to the user
+                debug('Wallet Created');
+                var walletResult = walletAddressRegex.exec(data);
+                debug(`Wallet address is: ${walletResult}`)
+                $(`#walletAddress`).text(walletResult);
 
-                    var viewKeyResult = viewKeyRegex.exec(data);
-                    debug(`Wallet view key is: ${viewKeyResult}`)
-                    $(`#viewKey`).text(viewKeyResult);
-                } else if (data.includes(`PLEASE NOTE: the following`)) { // Find the text regarding the wallet seed and output them to the user
-                    var seedResult = seedRegex.exec(data);
-                    debug(`Seed is: ${data}`);
-                    $(`#seed`).text(data);
+                var viewKeyResult = viewKeyRegex.exec(data);
+                debug(`Wallet view key is: ${viewKeyResult}`)
+                $(`#viewKey`).text(viewKeyResult);
+            } else if (data.includes(`PLEASE NOTE: the following`)) { // Find the text regarding the wallet seed and output them to the user
+                var seedResult = seedRegex.exec(data);
+                debug(`Seed is: ${data}`);
+                $(`#seed`).text(data);
 
-                } else if (data.includes(`failed to generate new wallet: file already exists`)) {
-                    $(`#walletAddress`).text('Error, a wallet with that address already exists. Please choose a different name or open the wallet');
-                }
+            } else if (data.includes(`failed to generate new wallet: file already exists`)) {
+                $(`#walletAddress`).text('Error, a wallet with that address already exists. Please choose a different name or open the wallet');
+            }
         });
 
         child.stderr.on('data', function (data) {
@@ -94,6 +94,7 @@ class moneroCli {
             debug(`Failed to launch monero-wallet-cli. Error: ${err}`)
         });
     }
+
 
 }
 
