@@ -54,45 +54,60 @@ class xmrStak {
     async startMining(args) {
         process.env.XMRSTAK_NOWAIT = true; // Remove the "Press any key to continue" on Windows.
 
+        var TLS;
+        var nicehash;
+        var currency;
+        var poolAddress = $("#poolAddress").val();
+        var poolUsername = $("#poolUsername").val();
+        var poolPassword = $("#poolPassword").val();
 
+        if ($("#radioMonero").is(':checked')) {
+            debug('Using Monero');
+            currency = `monero`
+        } else {
+            debug('Using Aeon');
+            currency = `aeon`;
+        }
+
+        if ($("#TLS").is(':checked')) {
+            debug('Using TLS');
+            TLS = `-O`
+        } else {
+            debug('NOT Using TLS');
+            TLS = `-o`
+        }
+
+        var config = [`--currency`, currency, TLS, poolAddress, `-u`, poolUsername, `-p`, poolPassword, '--noUAC', '--noNVIDIA'];
+
+        if ($("#NiceHash").is(':checked')) {
+            debug('Using NiceHash');
+            config.push(`--nicehash`);
+        } else {
+            debug('NOT Using NiceHash');
+        }
+
+        var child = await this.launchXMR(config);
+        if (child) { // child === false if launchXMR fails
+
+            child.stdout.on('data', function (data) {
+                debug(`stdout: ${data}`);
+            });
+
+            child.stderr.on('data', function (data) {
+                debug(`stderr: ${data}`);
+            });
+            child.on('close', function (code) {
+                debug(`Closing code: ${code}`);
+            });
+            child.on('error', function (err) { // If xmr-stak cant be found
+                $('#XMRVersion').text(` xmr-stak: Not Found,`);
+            });
+        }
 
     }
 
-    async download() {
-        var https = require('follow-redirects').https
-        var fs = require('fs')
+    async download() { // Todo download latest pre-compiled xmr-stak
 
-        const githubReleases = {
-            hostname: 'api.github.com',
-            path: '/repos/fireice-uk/xmr-stak/releases',
-            headers: {
-                'User-Agent': 'xmr-stak-gui'
-            }
-        };
-
-        https.get(githubReleases, function (res) {
-            var body = '';
-
-            res.on('data', function (chunk) {
-                body += chunk;
-            });
-
-            res.on('end', function () {
-                debug(body);
-                var githubResponse = JSON.parse(body);
-                debug(githubResponse[0].assets[0].browser_download_url)
-                var file = fs.createWriteStream("./assets/xmr-stak/xmr-stak.zip");
-                https.get(githubResponse[0].assets[0].browser_download_url, function (res) {
-                    console.log(res)
-                    res.pipe(file);
-                    res.on('end', function () {
-                        debug('Downloaded xmr-stak-win64.zip');
-                    });
-                });
-            });
-        }).on('error', function (e) {
-            debug("Got an error: ", e);
-        });
     }
 
 }
