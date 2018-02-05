@@ -7,7 +7,7 @@
     "start": "electron ."
   },
   "repository": "https://github.com/jacobgc/xmr-stak-gui.git",
-  "author": "Jacob <jacob.clarke2@gmail.com>",
+  "author": "Jacob <hey@jacobgc.me>",
   "license": "GNU General Public License v3.0",
   "private": false,
   "devDependencies": {

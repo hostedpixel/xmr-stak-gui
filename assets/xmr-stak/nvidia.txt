@@ -34,8 +34,8 @@
   //      memory: 6795/8192 MiB
   //      smx: 15
   { "index" : 0,
-    "threads" : 28, "blocks" : 45,
-    "bfactor" : 6, "bsleep" :  25,
+    "threads" : 17, "blocks" : 60,
+    "bfactor" : 0, "bsleep" :  0,
     "affine_to_cpu" : false, "sync_mode" : 3,
   },
 

@@ -21,10 +21,16 @@
         <li class="nav-item">
           <a class="nav-link" href="./index.html">Home</a>
         </li>
-        <li class="nav-item active">
-          <a class="nav-link" href="./miner.html">Miner
-            <span class="sr-only">(current)</span>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
+            Miner
           </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="./monitor.html">Monitor + Start/Stop</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="./miner.html">Config</a>
+          </div>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="./wallet.html">Wallet</a>
@@ -40,7 +46,7 @@
     <h1>Miner</h1>
   </div>
   <div class="container">
-    <form id="miningSettings" lpformnum="1" _lpchecked="1">
+    <form action="./monitor.html" method="GET" id="miningSettings" lpformnum="1" _lpchecked="1">
       <fieldset>
         <div class="form-group">
           <div class="custom-control custom-radio">
@@ -78,6 +84,7 @@
           <label class="custom-control-label" for="NiceHash">Should the pool run in nicehash mode?</label>
         </div>
       </div>
+      <input type="hidden" class="custom-control-input" id="start" name="start" value="true">
       <button type="submit" class="btn btn-primary">Start Miner</button>
       </fieldset>
     </form>
@@ -90,13 +97,107 @@
   <script src="../js/popper.min.js"></script>
   <script src="../js/bootstrap.min.js"></script>
 
+  <script>
+    // Load from gui-config.txt if it exists
+    const fs = require('fs');
+    const path = require('path');
+
+    fs.readFile('./gui-config.txt', {
+      encoding: 'utf-8'
+    }, function (err, data) {
+      if (!err) {
+        debug('Read config file:' + data);
+        debug('Filling form now');
+        data = data.split(","); // Convert data string into array
+
+        /*
+          Parse the config and set form values based on the following array template:
+          --currency,monero,-o,POOLADDRESS,-u,USERNAME,-p,PASSWORD,--noUAC
+        */
+
+        $("#poolAddress").val(data[3]);
+        $("#poolUsername").val(data[5]);
+        $("#poolPassword").val(data[7]);
+
+        if (data[1] === "monero") {
+          $("#radioMonero").prop('checked', true);
+        } else {
+          $("#radioAeon").prop('checked', true);
+        }
+
+        if (data[2] === "-O") {
+          $("#TLS").prop('checked', true);
+        } else {
+          $("#TLS").prop('checked', false);
+        }
+
+        if (data[2] === "-O") {
+          $("#TLS").prop('checked', true);
+        } else {
+          $("#TLS").prop('checked', false);
+        }
+
+        if (data[9] === "--nicehash") {
+          $("#NiceHash").prop('checked', true);
+        } else {
+          $("#NiceHash").prop('checked', false);
+        }
+
+      } else {
+        debug('Error reading gui-config.txt' + err)
+      }
+    });
+  </script>
 
   <script>
+    var debug = require('debug')('xmr-stak-gui-miner.html');
+
     $('#miningSettings').submit(function (e) {
+      const realThis = this; // Used due to context changing with fs.writeFile
+
       e.preventDefault(); // to stop the form from submitting
-      var xmrStakClass = require('../classes/xmr-stak');
-      var xmrStak = new xmrStakClass();
-      xmrStak.startMining();
+
+      // Generate startup paramiters based on the form / loaded form
+      var poolAddress = $("#poolAddress").val();
+      var poolUsername = $("#poolUsername").val();
+      var poolPassword = $("#poolPassword").val();
+
+      if ($("#radioMonero").is(':checked')) {
+        debug('Using Monero');
+        currency = `monero`;
+      } else {
+        debug('Using Aeon');
+        currency = `aeon`;
+      }
+
+      if ($("#TLS").is(':checked')) {
+        debug('Using TLS');
+        TLS = `-O`
+      } else {
+        debug('NOT Using TLS');
+        TLS = `-o`
+      }
+
+      var config = ['--currency', currency, TLS, poolAddress, '-u', poolUsername, '-p', poolPassword, '--noUAC'];
+
+      if ($("#NiceHash").is(':checked')) {
+        debug('Using NiceHash mode');
+        config.push('--nicehash');
+      } else {
+        debug('NOT Using NiceHash mode');
+      }
+
+      debug(config);
+
+      fs.writeFile("gui-config.txt", config, function (err) {
+        if (err) {
+          return debug('Error saving config' + err);
+        }
+
+        debug('Config Saved')
+        realThis.submit();
+      });
+
     });
   </script>
 

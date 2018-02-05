@@ -41,28 +41,10 @@
                 <li class="nav-item">
                     <a class="nav-link" href="./settings.html">Settings</a>
                 </li>
-
             </ul>
         </div>
     </nav>
     <br>
-
-    <div id="footer">
-        <div class="container-fluid">
-            <!-- All of the Node.js APIs are available in this renderer process. -->
-            We are using Node.js
-            <script>
-                document.write(process.versions.node)
-            </script>, Chromium:
-            <script>
-                document.write(process.versions.chrome)
-            </script>, Electron:
-            <script>
-                document.write(process.versions.electron)
-            </script>,
-            <div style="display:inline-block;" id="XMRVersion">and xmr-stak: LOADING </div>
-        </div>
-    </div>
 
     <script>
         // jQuery is weird within electron so has to be loaded like this.
@@ -71,10 +53,28 @@
     <script src="../js/popper.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
 
-    <script async>
-        var xmrStakClass = require('../classes/xmr-stak');
-        var xmrStak = new xmrStakClass();
-        xmrStak.getVersion();
+    <script>
+        var debug = require('debug')('xmr-stak-gui-monitor.html');
+
+        function findGetParameter(parameterName) {
+            var result = null,
+                tmp = [];
+            location.search
+                .substr(1)
+                .split("&")
+                .forEach(function (item) {
+                    tmp = item.split("=");
+                    if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+                });
+            return result;
+        }
+        debug(findGetParameter('start'));
+        debug(typeof findGetParameter('start'));
+        if (findGetParameter('start') === "true") {
+            var xmrStakClass = require('../classes/xmr-stak');
+            var xmrStak = new xmrStakClass();
+            xmrStak.startMining();
+        }
     </script>
 
 </body>

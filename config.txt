@@ -1,4 +1,4 @@
-
+﻿
 /*
  * pool_address    - Pool address should be in the form "pool.supportxmr.com:3333". Only stratum pools are supported.
  * wallet_address  - Your wallet, or pool login.
@@ -13,7 +13,7 @@
  */
 "pool_list" :
 [
-	{"pool_address" : "a", "wallet_address" : "a", "pool_password" : "x", "use_nicehash" : false, "use_tls" : false, "tls_fingerprint" : "", "pool_weight" : 1 },
+	{"pool_address" : "xxx", "wallet_address" : "xxx", "pool_password" : "xxx", "use_nicehash" : false, "use_tls" : false, "tls_fingerprint" : "", "pool_weight" : 1 },
 ],
 
 /*
@@ -55,8 +55,8 @@
  *
  * print_motd    - Display messages from your pool operator in the hashrate result.
  */
-"verbose_level" : 3,
-"print_motd" : true,
+"verbose_level" : 4,
+"print_motd" : false,
 
 /*
  * Automatic hashrate report
@@ -64,7 +64,7 @@
  * h_print_time - How often, in seconds, should we print a hashrate report if verbose_level is set to 4.
  *                This option has no effect if verbose_level is not 4.
  */
-"h_print_time" : 60,
+"h_print_time" : 10,
 
 /*
  * Manual hardware AES override
@@ -142,7 +142,7 @@
  * each output line immediately. This can cause delays when running in background.
  * Set this option to true to flush stdout after each line, so it can be read immediately.
  */
-"flush_stdout" : false,
+"flush_stdout" : true,
 
 /*
  * Output file
