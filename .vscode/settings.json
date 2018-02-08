@@ -10,7 +10,10 @@
         "nowait",
         "prefetch",
         "radio",
+        "resizable",
+        "skip",
         "stak",
+        "taskbar",
         "to",
         "xmr",
         "xmrstak"

@@ -13,7 +13,7 @@
  */
 "pool_list" :
 [
-	{"pool_address" : "xxx", "wallet_address" : "xxx", "pool_password" : "xxx", "use_nicehash" : false, "use_tls" : false, "tls_fingerprint" : "", "pool_weight" : 1 },
+	{"pool_address" : "163.172.160.14:443", "wallet_address" : "homepc", "pool_password" : "x", "use_nicehash" : false, "use_tls" : false, "tls_fingerprint" : "", "pool_weight" : 1 },
 ],
 
 /*
@@ -56,7 +56,7 @@
  * print_motd    - Display messages from your pool operator in the hashrate result.
  */
 "verbose_level" : 4,
-"print_motd" : false,
+"print_motd" : true,
 
 /*
  * Automatic hashrate report

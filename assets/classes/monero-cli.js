@@ -95,7 +95,6 @@ class moneroCli {
         });
     }
 
-
 }
 
 module.exports = moneroCli;

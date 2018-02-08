@@ -43,7 +43,7 @@
   </nav>
   <br>
   <div class="container-fluid">
-    <h1>Miner</h1>
+    <h1>Miner Config</h1>
   </div>
   <div class="container">
     <form action="./monitor.html" method="GET" id="miningSettings" lpformnum="1" _lpchecked="1">
@@ -102,7 +102,7 @@
     const fs = require('fs');
     const path = require('path');
 
-    fs.readFile('./gui-config.txt', {
+    fs.readFile('./assets/configs/gui-config.txt', {
       encoding: 'utf-8'
     }, function (err, data) {
       if (!err) {

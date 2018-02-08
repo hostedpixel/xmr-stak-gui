@@ -12,7 +12,8 @@ class xmrStak {
             debug('OS Type: Linux');
             debug(`Spawning child process xmr-stak with the parameters: ${args}`);
             var child = spawn(path.join(__dirname, '../xmr-stak/xmr-stak'), args, {
-                shell: true
+                shell: true,
+                cwd: './assets/configs/'
             });
             return child;
 
@@ -20,7 +21,8 @@ class xmrStak {
             debug('OS Type: Windows_NT');
             debug(`Spawning child process xmr-stak with the parameters: ${args}`);
             var child = spawn(path.join(__dirname, '../xmr-stak/xmr-stak.exe'), args, {
-                shell: true
+                shell: true,
+                cwd: './assets/configs/'
             });
             return child;
         } else {
@@ -39,7 +41,7 @@ class xmrStak {
                     var version = data.toString('utf8');
                     version = version.replace('Version: xmr-stak', '');
                     debug('Version:' + version);
-                    $('#XMRVersion').text(`and xmr-stak: ${version},`);
+                    $('#XMRVersion').text(`, xmr-stak: ${version},`);
                     return version;
                 }, 1000);
             });
@@ -61,7 +63,7 @@ class xmrStak {
 
         process.env.XMRSTAK_NOWAIT = true; // Remove the "Press any key to continue" on Windows.
 
-        fs.readFile('./gui-config.txt', {
+        fs.readFile('./assets/configs/gui-config.txt', {
             encoding: 'utf-8'
         }, async function (err, config) {
             if (!err) {
@@ -75,6 +77,12 @@ class xmrStak {
 
                     child.stdout.on('data', function (data) {
                         debug(`stdout: ${data}`);
+
+                        if(data.toString().includes('Pool logged in.')){ // Look for a successful start and alert user
+                            debug('Pool logged in, successful start!');
+                            $('#minerStatus').text('STARTED');
+                            $('#minerStatusAlert').removeClass('alert-warning').addClass('alert-success');
+                        }
                     });
 
                     child.stderr.on('data', function (data) {
@@ -94,10 +102,31 @@ class xmrStak {
 
     }
 
-    async download() { // Todo download latest pre-compiled xmr-stak
+    async parseOutput(){
 
     }
 
+    // Reads the cpu.txt file, attempts to find the config at the bottom of the file using the regex, fixes some of the default output which is not valid JSON and then converts it into a JSON array
+    async loadCPUConfig(){
+        fs.readFile('./assets/configs/cpu.txt', {encoding: 'utf-8'}, function(err,data){
+            if (!err) {
+                debug('Read cpu config, extracting data now');
+                debug(data);
+                var configRegex = /\[\r\n    [{ "a-z_:,0-9}\r\n]*\r\n],/g // Regex to extract the config array from the file
+                var config = configRegex.exec(data);
+                debug(config[0]);
+                config = config[0].replace('},\r\n],', '}]');
+                debug(config)
+                config = JSON.parse(config);
+                debug(config);
+                debug('Core Count: ' + config.length);
+                return config;
+            } else {
+                debug(err);
+                return false;
+            }
+        });
+    }
 }
 
 module.exports = xmrStak;

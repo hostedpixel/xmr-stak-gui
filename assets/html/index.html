@@ -46,6 +46,9 @@
         </div>
     </nav>
     <br>
+    <div class="container-fluid">
+        <h1>Welcome</h1>
+    </div>
 
     <div id="footer">
         <div class="container-fluid">
@@ -60,7 +63,8 @@
             <script>
                 document.write(process.versions.electron)
             </script>,
-            <div style="display:inline-block;" id="XMRVersion">and xmr-stak: LOADING </div>
+            <div style="display:inline-block;" id="XMRVersion">, xmr-stak: LOADING, and</div>
+            <div style="display:inline-block;" id="MoneroCliVersion">, monero-cli: LOADING.</div>
         </div>
     </div>
 
@@ -72,9 +76,14 @@
     <script src="../js/bootstrap.min.js"></script>
 
     <script async>
+        console.log('Hello?')
         var xmrStakClass = require('../classes/xmr-stak');
+        var moneroCliClass = require('../classes/monero-cli');
         var xmrStak = new xmrStakClass();
         xmrStak.getVersion();
+
+        var moneroCLI = new moneroCliClass();
+        moneroCLI.getVersion();
     </script>
 
 </body>

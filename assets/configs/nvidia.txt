@@ -28,6 +28,7 @@
  * ],
  */
 
+
 "gpu_threads_conf" :
 [
   // gpu: GeForce GTX 1070 architecture: 61

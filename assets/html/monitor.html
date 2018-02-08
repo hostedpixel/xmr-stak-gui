@@ -45,6 +45,30 @@
         </div>
     </nav>
     <br>
+    <!-- Main body here -->
+    <div class="container-fluid">
+        <h1>Monitor</h1>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm">
+                    <center>
+                        <h4>Current miner status:
+                            <div style="display:inline-block;">
+                                <div id="minerStatusAlert" class="alert alert-danger">
+                                    <strong id="minerStatus">DISABLED</strong>
+                                </div>
+                            </div>
+                        </h4>
+                        <button id="startMiningButton" style="visibility: hidden" type="button" class="btn btn-primary">Start Mining</button>
+                    </center>
+                </div>
+                <div class="col-sm">
+                    two of two columns
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
         // jQuery is weird within electron so has to be loaded like this.
@@ -69,11 +93,15 @@
             return result;
         }
         debug(findGetParameter('start'));
-        debug(typeof findGetParameter('start'));
         if (findGetParameter('start') === "true") {
             var xmrStakClass = require('../classes/xmr-stak');
             var xmrStak = new xmrStakClass();
             xmrStak.startMining();
+
+            $('#minerStatus').text('STARTING');
+            $('#minerStatusAlert').removeClass('alert-danger').addClass('alert-warning');
+        } else {
+            $('#startMiningButton').css('visibility', 'visible')
         }
     </script>
 
